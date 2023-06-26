@@ -72,7 +72,7 @@ def encode_pixels_with_message(pixels, bytestring):
 
 
 def write_pixels_to_image(pixels, fname):
-    png.from_array(pixels, 'L;16').save(fname)
+    png.from_array(pixels, 'L').save(fname)
 
 
 def decode_pixels(pixels):
@@ -109,7 +109,6 @@ def main():
         pixels = get_pixels_from_image(in_image)
         bytestring = encode_message_as_bytestring(in_message)
         epixels = encode_pixels_with_message(pixels, bytestring)
-        print(pixels)
         write_pixels_to_image(epixels, in_image.replace(".png", "-enc.png"))
         print("[DONE] -ENCODING-")
 
