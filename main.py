@@ -1,5 +1,23 @@
 import png
 import base64
+import random
+
+# generate a random small image for the message
+
+def create_image(message):
+    width = len(message)*8
+    height = len(message)*8
+    img = []
+    for y in range(height):
+        row = ()
+        for x in range(width):
+            row = row + (x,random.randrange(255),y)
+        img.append(row)
+    with open('original.png', 'wb') as f:
+        w = png.Writer(width, height, greyscale=False)
+        w.write(f, img)
+    return img
+
 
 PROMPT = """
 Welcome to basic steganography. Please choose:
@@ -80,9 +98,11 @@ def main():
         user_inp = input("Your choice: ")
 
     if user_inp == "1":
-        in_image = input("Please enter filename of existing PNG image: ")
+        #in_image = input("Please enter filename of existing PNG image: ")
         in_message = input("Please enter the message to encode: ")
-
+        in_image = "original.png"
+        img = create_image(in_message)
+        #print(img)
         print("-ENCODING-")
         pixels = get_pixels_from_image(in_image)
         bytestring = encode_message_as_bytestring(in_message)
