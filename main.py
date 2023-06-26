@@ -4,17 +4,18 @@ import random
 
 # generate a random small image for the message
 
+
 def create_image(message):
-    width = len(message)*8
-    height = len(message)*8
+    width = len(message) * 8
+    height = len(message) * 8
     img = []
     for y in range(height):
-        row = ()
+        row = []
         for x in range(width):
-            row = row + (x,random.randrange(255),y)
+            row.append(random.randrange(2) * 255)
         img.append(row)
     with open('original.png', 'wb') as f:
-        w = png.Writer(width, height, greyscale=False)
+        w = png.Writer(width, height, greyscale=True)
         w.write(f, img)
     return img
 
@@ -57,20 +58,21 @@ def encode_pixels_with_message(pixels, bytestring):
             else:
                 if row[i] % 2 != int(bytestring[string_i]):
                     if row[i] == 0:
-                        pixel = 1
+                        pixel = 255
                     else:
-                        pixel = row[i] - 1
+                        pixel = row[i] - 255
                 else:
                     pixel = row[i]
             enc_row.append(pixel)
             string_i += 1
 
         enc_pixels.append(enc_row)
+    print(enc_pixels)
     return enc_pixels
 
 
 def write_pixels_to_image(pixels, fname):
-    png.from_array(pixels, 'RGB').save(fname)
+    png.from_array(pixels, 'L').save(fname)
 
 
 def decode_pixels(pixels):
@@ -107,7 +109,7 @@ def main():
         pixels = get_pixels_from_image(in_image)
         bytestring = encode_message_as_bytestring(in_message)
         epixels = encode_pixels_with_message(pixels, bytestring)
-        write_pixels_to_image(epixels, in_image + "-enc.png")
+        write_pixels_to_image(epixels, in_image.replace(".png", "-enc.png"))
         print("[DONE] -ENCODING-")
 
     elif user_inp == "2":
