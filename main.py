@@ -13,7 +13,7 @@ def create_image(message):
         for x in range(width):
             row = row + (x,random.randrange(255),y)
         img.append(row)
-    with open('gradient.png', 'wb') as f:
+    with open('original.png', 'wb') as f:
         w = png.Writer(width, height, greyscale=False)
         w.write(f, img)
     return img
@@ -100,9 +100,9 @@ def main():
     if user_inp == "1":
         #in_image = input("Please enter filename of existing PNG image: ")
         in_message = input("Please enter the message to encode: ")
-        in_image = "new_image.png"
+        in_image = "original.png"
         img = create_image(in_message)
-        print(img)
+        #print(img)
         print("-ENCODING-")
         pixels = get_pixels_from_image(in_image)
         bytestring = encode_message_as_bytestring(in_message)
